@@ -15,7 +15,7 @@ def trip():
     mutex.acquire()
     try:
         circuit_tripped_until = datetime.now() + timedelta(0,30)
-        app.logger.info("circuit tripped until %s" %(circuit_tripped_until))
+        app.logger.info(f"circuit tripped until {circuit_tripped_until}")
     finally:
         mutex.release()
 
@@ -38,12 +38,11 @@ def hello():
         r = requests.get('http://localhost:5000', timeout=1)
         app.logger.info("requesting weather...")
         start = datetime.now()
-        app.logger.info("got weather in %s ..." % (datetime.now() - start))
+        app.logger.info(f"got weather in {datetime.now() - start} ...")
         if r.status_code == requests.codes.ok:
             return r.text
-        else:
-            trip()
-            return "circuit brekear: service unavailable (tripping 1)"
+        trip()
+        return "circuit brekear: service unavailable (tripping 1)"
     except:
         app.logger.info("exception: %s", sys.exc_info()[0])
         trip()

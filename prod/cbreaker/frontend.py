@@ -11,7 +11,7 @@ def hello():
         print("requesting weather...")
         start = datetime.now()
         r = requests.get('http://weather')
-        print("got weather in %s ..." % (datetime.now() - start))
+        print(f"got weather in {datetime.now() - start} ...")
         if r.status_code == requests.codes.ok:
             weather = r.text
     except:
@@ -20,11 +20,12 @@ def hello():
     print("requesting mail...")
     r = requests.get('http://mail')
     mail = r.json()
-    print("got mail in %s ..." % (datetime.now() - start))
+    print(f"got mail in {datetime.now() - start} ...")
 
-    out = []
-    for letter in mail:
-        out.append("<li>From: %s Subject: %s</li>" % (letter['from'], letter['subject']))
+    out = [
+        f"<li>From: {letter['from']} Subject: {letter['subject']}</li>"
+        for letter in mail
+    ]
 
     return '''<html>
 <body>
